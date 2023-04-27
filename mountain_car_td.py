@@ -27,6 +27,7 @@ def runExperiment(nEpisodes, env, agent):
       print(agent.getName(), "Episode : ", e)
       
     state = env.reset()
+    state = process_observations_to_states(state)
     action = agent.selectAction(state) 
     done = False
     reward_sums.append(0.0)
@@ -117,6 +118,7 @@ def main(env, nStates, nActions):
 
 def process_observations_to_states(state):
    #TODO continous to state
+   print(state)
    return state
 
 if __name__ == '__main__':
