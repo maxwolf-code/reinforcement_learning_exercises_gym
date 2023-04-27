@@ -43,7 +43,7 @@ def runExperiment(nEpisodes, env, agent):
 
       new_state = process_observations_to_states(new_state)
 
-      if e%20 == 0:
+      if e%100 == 0:
         env.render()
       
       #print("NEW STATE",new_state, reward, done)
@@ -91,7 +91,7 @@ def main(env, nStates, nActions):
     """Main to test agents in environments
     """
     nExperiments = 1
-    nEpisodes = 101
+    nEpisodes = 1001
 
     # Agent
     alpha_SARSA = 0.1 
@@ -100,8 +100,8 @@ def main(env, nStates, nActions):
     alpha_Q = 0.1
     gamma_Q = 0.9
 
-    epsilon_SARSA = 0.01
-    epsilon_Q = 0.01
+    epsilon_SARSA = 0.1
+    epsilon_Q = 0.1
 
     #env.render()
     for idx_experiment in range(1, nExperiments+1):
@@ -118,20 +118,56 @@ def main(env, nStates, nActions):
 
 def process_observations_to_states(state):
    #TODO continous to state
-   print(state)
-   return state
+   threshold_vel = 0
+   threshold_pos = -0.5
+
+   raw_pos, raw_vel = state
+
+   pos = 0
+   if raw_pos > threshold_pos:
+      pos = 1
+    
+   vel = 0
+   if raw_vel > threshold_vel:
+      vel = 1
+
+   state_str = str(pos) + str(vel)
+   state_dict = {
+      '00': 0,
+      '01': 1,
+      '10': 2,
+      '11': 3,
+   }
+   discrete_state = state_dict[state_str]
+   #print(state, discrete_state)
+   return discrete_state 
 
 if __name__ == '__main__':
     
+    '''
+    Action Space        Discrete(3); Accelerate : left, none, right
+
+    Observation Shape   (2,)
+    Observation High    [0.6 0.07]
+    Observation Low     [-1.2 -0.07]
+    0:  position of the car along the x-axis | -1.2; 0.6 
+    1:  velocity of the car | -0.07; 0.07
+
+    start position: 
+    The position of the car is assigned 
+    a uniform random value in [-0.6 , -0.4]. 
+    The starting velocity of the car is always assigned to 0.
     
-    nStates = 8**2
-    nActions = 4
+    '''
 
     env = gym.make('MountainCar-v0')
     env.reset()
     render_mode = 'human'
 
     #TODO quantisize continous inputs to create discrete states; test tabular methods
+
+    nStates = 2**2 #depends on preprocessing of continuing states in process_observations
+    nActions = 3 #Accelerate : left, none, right
 
     main(env, nStates, nActions)
 
