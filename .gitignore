@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 environments/__pycache__/gridworld_simple.cpython-39.pyc
 experiment_results
+
+
+# Envs
+gym_env

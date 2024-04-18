@@ -26,7 +26,7 @@ def runExperiment(nEpisodes, env, agent):
     if(e%100==0):
       print(agent.getName(), "Episode : ", e)
       
-    state = env.reset()
+    state, t_prob = env.reset()
     action = agent.selectAction(state) 
     done = False
     reward_sums.append(0.0)
@@ -38,7 +38,7 @@ def runExperiment(nEpisodes, env, agent):
       experiences[-1]['action'] = action
       experiences[-1]['done'] = done
       
-      new_state, reward, done, info = env.step(action)
+      new_state, reward, done, is_truncated, t_prob = env.step(action)
 
       if e%20 == 0:
         env.render()
