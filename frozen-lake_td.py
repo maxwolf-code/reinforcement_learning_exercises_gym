@@ -78,7 +78,7 @@ def runExperiment(nEpisodes, env, agent):
     if e%100==0:
         title = agent.getName()+' Episode:'+str(e)
         print(title, 'reward_sums=',reward_sums[-1])
-        #env.render(name = title)
+        env.render()
 
       
   return reward_sums, np.array(episodesvstimesteps), actionValueTable_history
@@ -140,9 +140,11 @@ if __name__ == '__main__':
     nStates = 8**2
     nActions = 4
 
-    env = gym.make('FrozenLake-v1', is_slippery=True, desc=desc)
+    env = gym.make('FrozenLake-v1', is_slippery=True, desc=desc, render_mode = 'human')
     env.reset()
-    render_mode = 'human'
+    
+    #env.render()
+
 
     main(env, nStates, nActions)
 

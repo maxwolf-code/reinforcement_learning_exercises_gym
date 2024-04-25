@@ -3,3 +3,4 @@ gym-notices==0.0.7
 numpy==1.20.0
 pip==22.0.4
 pygame==2.1.2
+gym[toy_text]
