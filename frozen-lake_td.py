@@ -26,7 +26,8 @@ def runExperiment(nEpisodes, env, agent):
     if(e%100==0):
       print(agent.getName(), "Episode : ", e)
       
-    state, t_prob = env.reset()
+    #state, t_prob = env.reset()
+    state = env.reset()
     action = agent.selectAction(state) 
     done = False
     reward_sums.append(0.0)
@@ -38,7 +39,9 @@ def runExperiment(nEpisodes, env, agent):
       experiences[-1]['action'] = action
       experiences[-1]['done'] = done
       
-      new_state, reward, done, is_truncated, t_prob = env.step(action)
+      #new_state, reward, done, is_truncated, t_prob = env.step(action)
+      new_state, reward, done, t_prob = env.step(action)
+
 
       if e%20 == 0:
         env.render()
@@ -140,7 +143,7 @@ if __name__ == '__main__':
     nStates = 8**2
     nActions = 4
 
-    env = gym.make('FrozenLake-v1', is_slippery=True, desc=desc, render_mode = 'human')
+    env = gym.make('FrozenLake-v1', is_slippery=True, desc=desc)#, render_mode = 'human')
     env.reset()
     
     #env.render()
